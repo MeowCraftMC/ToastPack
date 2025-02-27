@@ -16,16 +16,15 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 @EventBusSubscriber(modid = ToastGenerator.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModData {
     @SubscribeEvent
-    public static void onData(GatherDataEvent event) {
+    public static void onData(GatherDataEvent.Server event) {
         var registries = event.getLookupProvider();
         var generator = event.getGenerator();
         var output = generator.getPackOutput();
-        var exHelper = event.getExistingFileHelper();
 
-        event.addProvider(true, new PackMetadataGenerator(output).add(PackMetadataSection.TYPE, new PackMetadataSection(Component.literal("The data-pack for Catopia"), DetectedVersion.BUILT_IN.getPackVersion(PackType.SERVER_DATA))));
-        event.addProvider(true, new ModAdvancementProvider(output, registries, exHelper));
-        event.addProvider(true, new ModRecipeProvider.Runner(output, registries));
-        var blockTags = event.addProvider(true, new ModBlockTagsProvider(output, registries, ToastGenerator.MODID, exHelper));
-        event.addProvider(true, new ModItemTagsProvider(output, registries, blockTags.contentsGetter(), ToastGenerator.MODID, exHelper));
+        event.addProvider(new PackMetadataGenerator(output).add(PackMetadataSection.TYPE, new PackMetadataSection(Component.literal("The data-pack for Catopia"), DetectedVersion.BUILT_IN.getPackVersion(PackType.SERVER_DATA))));
+        event.addProvider(new ModAdvancementProvider(output, registries));
+        event.addProvider(new ModRecipeProvider.Runner(output, registries));
+        var blockTags = event.addProvider(new ModBlockTagsProvider(output, registries, ToastGenerator.MODID));
+        event.addProvider(new ModItemTagsProvider(output, registries, blockTags.contentsGetter(), ToastGenerator.MODID));
     }
 }

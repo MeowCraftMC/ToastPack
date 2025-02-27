@@ -6,11 +6,10 @@ import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.advancements.AdvancementSubProvider;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
-import net.neoforged.neoforge.common.data.AdvancementProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -19,11 +18,10 @@ import static cx.rain.mc.toast.generator.utility.Naming.*;
 import static net.minecraft.advancements.Advancement.Builder.advancement;
 import static net.minecraft.network.chat.Component.literal;
 
-public class MemeAdvancements implements AdvancementProvider.AdvancementGenerator {
+public class MemeAdvancements implements AdvancementSubProvider {
 
     @Override
-    public void generate(HolderLookup.@NotNull Provider registries, @NotNull Consumer<AdvancementHolder> saver,
-                         @NotNull ExistingFileHelper existingFileHelper) {
+    public void generate(HolderLookup.@NotNull Provider registries, @NotNull Consumer<AdvancementHolder> saver) {
         var entityHolderGetter = registries.lookupOrThrow(Registries.ENTITY_TYPE);
         var itemHolderGetter = registries.lookupOrThrow(Registries.ITEM);
 
@@ -76,7 +74,6 @@ public class MemeAdvancements implements AdvancementProvider.AdvancementGenerato
                 EntityPredicate.Builder.entity()
                         .subPredicate(PlayerPredicate.Builder.player()
                                 .setLookingAt(entity)
-                                .build()),
-                item);
+                                .build()), item);
     }
 }
