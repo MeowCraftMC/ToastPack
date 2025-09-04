@@ -29,7 +29,7 @@ public class MemeAdvancements implements AdvancementSubProvider {
                 .display(Items.DIRT_PATH,
                         literal("模因污染"),
                         literal("这一切的一切还要从一只狼说起……"),
-                        mcLoc("textures/block/dirt_path_top.png"),
+                        mcLoc("textures/block/dirt_path_top"),
                         AdvancementType.TASK, false, false, false)
                 .addCriterion("tick", PlayerTrigger.TriggerInstance.tick()));
 
